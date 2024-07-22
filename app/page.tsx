@@ -287,7 +287,7 @@ hand = ${
 				{({ className, style, tokens, getLineProps, getTokenProps }) => (
 					<pre className={className} style={{ ...style, ...atomOneDarkStyle }}>
 						{tokens.map((line, i) => (
-							<div {...getLineProps({ line, key: i })}>
+							<div {...getLineProps({ line, key: i })} key={String(line) + i + "2"}>
 								{line.map((token, key) => {
 									let tokenProps = getTokenProps({ token, key });
 									if (token.types.includes("string")) {
@@ -298,7 +298,7 @@ hand = ${
 											tokenProps.className += " bg-yellow-500 bg-opacity-50";
 										}
 									}
-									return <span {...tokenProps} />;
+									return <span {...tokenProps} key={String(line) + i + "!"} />;
 								})}
 							</div>
 						))}
