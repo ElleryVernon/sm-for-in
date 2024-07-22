@@ -365,7 +365,7 @@ hand = ${
 			<div className="flex justify-between items-center bg-white p-4 rounded-lg shadow">
 				<div className="space-x-2">
 					<Button onClick={nextStep} variant="secondary" className="border border-zinc-400">
-						다음
+						다음 단계
 					</Button>
 					<Button onClick={() => parseAndExecuteCode(false)} variant="default">
 						전체 실행
