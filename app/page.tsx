@@ -139,7 +139,6 @@ for hand in basket:
 					newState.currentLine = 1;
 					newState.executionStep = 2;
 					break;
-					break;
 				case 6: // 루프 종료
 					newState.currentLine = 3;
 					newState.executionMode = "idle";
@@ -225,7 +224,7 @@ for hand in basket:
 	};
 
 	const highlightCode = (): JSX.Element => {
-		const { code, currentLine, currentFruitIndex, variables } = executionState;
+		const { code, currentLine, currentFruitIndex, variables, executionMode } = executionState;
 		const lines = code.split("\n");
 
 		return (
@@ -233,7 +232,9 @@ for hand in basket:
 				{lines.map((line, lineIndex) => {
 					const tokens = Prism.tokenize(line, Prism.languages.python);
 					const lineStyle =
-						lineIndex === currentLine ? { backgroundColor: "rgba(59, 130, 246, 0.5)" } : {};
+						lineIndex === currentLine && executionMode !== "idle"
+							? { backgroundColor: "rgba(59, 130, 246, 0.5)" }
+							: {};
 
 					return (
 						<div key={lineIndex} style={lineStyle}>
@@ -244,7 +245,7 @@ for hand in basket:
 										const fruitIndex = variables.fruits?.findIndex(
 											(fruit) => fruit === content.replace(/['"]/g, "")
 										);
-										if (fruitIndex === currentFruitIndex) {
+										if (fruitIndex === currentFruitIndex && executionMode !== "idle") {
 											return (
 												<span
 													key={tokenIndex}
@@ -279,7 +280,7 @@ for hand in basket:
 hand = ${
 			variables.fruits?.[currentFruitIndex] !== undefined
 				? `"${variables.fruits?.[currentFruitIndex]}"`
-				: "undefined"
+				: "비어있음"
 		}`;
 
 		return (
@@ -363,14 +364,14 @@ hand = ${
 
 			<div className="flex justify-between items-center bg-white p-4 rounded-lg shadow">
 				<div className="space-x-2">
+					<Button onClick={nextStep} variant="secondary" className="border border-zinc-400">
+						다음
+					</Button>
 					<Button onClick={() => parseAndExecuteCode(false)} variant="default">
 						전체 실행
 					</Button>
-					<Button onClick={nextStep} variant="secondary" className="border border-zinc-400">
-						다음 단계
-					</Button>
-					<Button onClick={reset} variant="outline">
-						처음부터
+					<Button onClick={reset} variant="outline" className="border border-zinc-400">
+						리셋
 					</Button>
 				</div>
 				<div className="text-sm font-medium text-gray-600">
